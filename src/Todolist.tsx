@@ -1,7 +1,7 @@
 import {FilterValuesType, TodolistType} from './AppWithRedux/AppWithRedux.tsx';
 import React, {useCallback} from "react";
 import {AddItemForm} from "./AddItemForm/AddItemForm.tsx";
-import {EditTableSpan} from "./EditTableSpan.tsx";
+import {EditTableSpan} from "./common/components/EditTableSpan/EditTableSpan.tsx";
 import {Button, IconButton} from "@mui/material";
 import {Delete} from "@mui/icons-material";
 import {Task} from "./Task.tsx";

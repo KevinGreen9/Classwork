@@ -2,7 +2,7 @@ import type {TaskType} from "./Todolist.tsx";
 import {Delete} from "@mui/icons-material";
 import {Checkbox, IconButton} from "@mui/material";
 import React, {type ChangeEvent, useCallback} from "react";
-import {EditTableSpan} from "./EditTableSpan.tsx";
+import {EditTableSpan} from "./common/components/EditTableSpan/EditTableSpan.tsx";
 
 export type TaskProps = {
     changeStatus: (todolistId: string, taskId: string, isDone: boolean) => void
