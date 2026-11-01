@@ -1,12 +1,12 @@
 import {v1} from "uuid";
-import { TaskStateType} from "../AppWithReducer.tsx"
+import { TaskStateType} from "../../../AppWithReducer.tsx"
 import {
     AddTaskAC,
     ChangeTaskStatusAC,
     ChangeTaskTitleAC,
     RemoveTaskAC,
     tasksReducer
-} from "./tasks.reducer.ts";
+} from "../tasks.reducer.ts";
 import {expect, test} from 'vitest';
 
 

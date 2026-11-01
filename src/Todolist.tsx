@@ -1,33 +1,29 @@
-import {FilterValuesType, TodolistType} from './AppWithRedux/AppWithRedux.tsx';
 import React, {useCallback} from "react";
-import {AddItemForm} from "./AddItemForm/AddItemForm.tsx";
+import {AddItemForm} from "./common/components/AddItemForm/AddItemForm.tsx";
 import {EditTableSpan} from "./common/components/EditTableSpan/EditTableSpan.tsx";
 import {Button, IconButton} from "@mui/material";
 import {Delete} from "@mui/icons-material";
 import {Task} from "./Task.tsx";
-
-
-export type TaskType = {
-    id: string
-    title: string
-    isDone: boolean
-}
+import {FilterValues} from "./features/model/todolists-reducer.ts";
+import {TaskType} from "./features/model/tasks.reducer.ts";
+import {TodolistType} from "./App/App.tsx";
 
 export type PropsType = {
     id: TodolistType["id"]
     title: string
-    tasks: Array<TaskType>
+    tasks: TaskType[]
     addTask: (todolistId: string, title: string) => void
     changeTodolist: (todolistId: string, newTodolist: string) => void
-    filter: FilterValuesType
+    filter: FilterValues
     deleteTodolist: (todolistId: string) => void
-    changeFilter: (todolistId: string, value: FilterValuesType) => void
+    changeFilter: (todolistId: string, value: FilterValues) => void
     removeTask: (todolistId: string, taskId: string) => void
     changeStatus: (todolistId: string, taskId: string, isDone: boolean) => void
     changeSpan: (todolistId: string, taskId: string, newTitle: string) => void
 }
 
 export const Todolist = React.memo(function (props: PropsType) {
+
 
     const addTask = useCallback((title: string) => {
         props.addTask(props.id, title)

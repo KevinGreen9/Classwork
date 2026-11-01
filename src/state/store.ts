@@ -1,6 +1,7 @@
-import {combineReducers, createStore} from "redux";
-import {todolistsReducer} from "./todolists-reducer.ts";
-import {tasksReducer} from "./tasks.reducer.ts";
+import {combineReducers} from "redux";
+import {todolistsReducer} from "../features/model/todolists-reducer.ts";
+import {tasksReducer} from "../features/model/tasks.reducer.ts";
+import {configureStore} from "@reduxjs/toolkit";
 
 export const rootReducer = combineReducers({
     todolists: todolistsReducer,
@@ -9,7 +10,13 @@ export const rootReducer = combineReducers({
 
 export type AppRootState = ReturnType<typeof rootReducer>
 
-export const store = createStore(rootReducer);
+export const store = configureStore({
+  reducer:  rootReducer
+});
+
+export type RootState = ReturnType<typeof store.getState>
+
+export type AppDispatch = typeof store.dispatch
 
 // @ts-ignore
 window.store = store;

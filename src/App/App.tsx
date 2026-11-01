@@ -1,6 +1,6 @@
-import '../App.css';
+import './App.css';
 import {TaskType, Todolist} from '../Todolist.tsx';
-import {AddItemForm} from "../AddItemForm/AddItemForm.tsx";
+import {AddItemForm} from "../common/components/AddItemForm/AddItemForm.tsx";
 import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@mui/material";
 import MenuIcon from '@mui/icons-material/Menu';
 import {useTodolists} from "./hooks/useTodolists.tsx";

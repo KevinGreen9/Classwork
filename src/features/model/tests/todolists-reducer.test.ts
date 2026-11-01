@@ -1,7 +1,7 @@
-import {AddTodoAC, ChangeFilterTodoAC, ChangeNameTodoAC, RemoveTodoAC, todolistsReducer} from "./todolists-reducer.ts";
+import {AddTodoAC, ChangeFilterTodoAC, ChangeNameTodoAC, RemoveTodoAC, todolistsReducer} from "../todolists-reducer.ts";
 import {expect, test} from 'vitest';
 import {v1} from "uuid";
-import {FilterValuesType, TodolistType} from "../AppWithReducer.tsx";
+import {FilterValuesType, TodolistType} from "../../../AppWithReducer.tsx";
 
 test('correct todolist should be removed', () => {
     const todolistId_1 = v1()
