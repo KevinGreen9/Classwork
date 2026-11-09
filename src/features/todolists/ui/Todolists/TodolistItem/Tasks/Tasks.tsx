@@ -1,0 +1,41 @@
+
+
+import { TaskItem } from "./TaskItem/TaskItem"
+import List from "@mui/material/List"
+
+import {useAppSelector} from "../../../../../../common/hooks";
+import {selectTasks, Task} from "../../../../model/tasks.slice.ts";
+import {DomainTodolist} from "../../../../model/todolists-slice.ts";
+
+type Props = {
+    todolist: DomainTodolist
+}
+
+export const Tasks = ({ todolist }: Props) => {
+    const { id, filter } = todolist
+
+    const tasks = useAppSelector(selectTasks)
+
+    const todolistTasks = tasks[id]
+    let filteredTasks = todolistTasks
+    if (filter === "active") {
+        filteredTasks = todolistTasks.filter((task: Task) => !task.isDone)
+    }
+    if (filter === "completed") {
+        filteredTasks = todolistTasks.filter((task: Task) => task.isDone)
+    }
+
+    return (
+        <>
+            {filteredTasks.length === 0 ? (
+                <p>Тасок нет</p>
+            ) : (
+                <List>
+                    {filteredTasks.map((task: Task) => (
+                        <TaskItem key={task.id} task={task} todolistId={id} />
+                    ))}
+                </List>
+            )}
+        </>
+    )
+}

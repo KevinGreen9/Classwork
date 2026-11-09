@@ -1,12 +1,14 @@
 import {createRoot} from 'react-dom/client'
 import './index.css'
-import {AppWithRedux} from "./AppWithRedux/AppWithRedux.tsx";
+import {AppWithRedux} from "./App/AppHttpRequests.tsx";
 import {Provider} from "react-redux";
-import {store} from "./state/store.ts";
+import {store} from "./App/store.ts";
+import {App} from "./App/App.tsx";
 
 createRoot(document.getElementById('root')!).render(
     <Provider store={store}>
-        <AppWithRedux/>
+        {/*<AppWithRedux/>*/}
+        <App/>
     </Provider>
 
 )

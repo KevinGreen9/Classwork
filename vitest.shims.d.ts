@@ -1,0 +1,1 @@
+/// <reference types="@npm installvitest/browser-playwright" />
