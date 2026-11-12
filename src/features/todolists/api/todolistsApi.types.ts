@@ -1,6 +1,7 @@
-export type Todolist = {
-    id: string
+export type TodolistAttributes = {
     title: string
-    addedDate: string
+    addedAt: string
     order: number
 }
+
+export type Todolist = {id: string} & TodolistAttributes

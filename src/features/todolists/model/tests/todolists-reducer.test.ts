@@ -1,4 +1,4 @@
-import {AddTodoAC, ChangeFilterTodoAC, ChangeNameTodoAC, RemoveTodoAC, todolistsSlice} from "../todolists-slice.ts";
+import {AddTodoAC, ChangeFilterTodoAC, ChangeNameTodoAC, RemoveTodoAC, todolistsSlice} from "../todolistsSlice.ts";
 import {expect, test} from 'vitest';
 import {v1} from "uuid";
 import {FilterValuesType, TodolistType} from "../../../../AppWithReducer.tsx";

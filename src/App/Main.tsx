@@ -1,5 +1,5 @@
 import {useAppDispatch} from "../common/hooks";
-import {createTodolistTC} from "../features/todolists/model/todolists-slice.ts";
+import {createTodolistTC} from "../features/todolists/model/todolistsSlice.ts";
 import {AddItemForm} from "../common/components";
 import {Todolists} from "../features/todolists/ui/Todolists/Todolists.tsx";
 import {Container, Grid} from "@mui/material";

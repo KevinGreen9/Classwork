@@ -4,8 +4,8 @@ import { TaskItem } from "./TaskItem/TaskItem"
 import List from "@mui/material/List"
 
 import {useAppSelector} from "../../../../../../common/hooks";
-import {selectTasks, Task} from "../../../../model/tasks.slice.ts";
-import {DomainTodolist} from "../../../../model/todolists-slice.ts";
+import {selectTasks, Task} from "../../../../model/tasksSlice.ts";
+import {DomainTodolist} from "../../../../model/todolistsSlice.ts";
 
 type Props = {
     todolist: DomainTodolist
@@ -27,11 +27,11 @@ export const Tasks = ({ todolist }: Props) => {
 
     return (
         <>
-            {filteredTasks.length === 0 ? (
+            {filteredTasks?.length === 0 ? (
                 <p>Тасок нет</p>
             ) : (
                 <List>
-                    {filteredTasks.map((task: Task) => (
+                    {filteredTasks?.map((task: Task) => (
                         <TaskItem key={task.id} task={task} todolistId={id} />
                     ))}
                 </List>

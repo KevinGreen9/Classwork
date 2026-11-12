@@ -8,7 +8,7 @@ import Toolbar from "@mui/material/Toolbar"
 import {containerSx} from "../../styles";
 import {useAppDispatch, useAppSelector} from "../../hooks";
 import { NavButton } from "../NavButton/NavButton"
-import {changeThemeModeAC, selectThemeMode} from "../../../App/app-slice.ts";
+import {changeThemeModeAC, selectThemeMode} from "../../../App/appSlice.ts";
 import {getTheme} from "../../theme/theme.ts";
 
 export const Header = () => {

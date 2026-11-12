@@ -4,7 +4,7 @@ import IconButton from "@mui/material/IconButton"
 import ListItem from "@mui/material/ListItem"
 import type { ChangeEvent } from "react"
 import { getListItemSx } from "./TaskItem.styles"
-import {changeTaskStatusAC, changeTaskTitleAC, deleteTaskAC, Task} from "../../../../../model/tasks.slice.ts";
+import {changeTaskStatusAC, changeTaskTitleAC, deleteTaskAC, Task} from "../../../../../model/tasksSlice.ts";
 import {useAppDispatch} from "../../../../../../../common/hooks";
 import {EditableSpan} from "../../../../../../../common/components";
 

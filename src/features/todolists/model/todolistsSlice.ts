@@ -20,7 +20,7 @@ export const todolistsSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(fetchTodolistsTC.fulfilled, (_state, action) => {
-                return action.payload.map((tl) => ({ ...tl, filter:  'all'}))
+                return action.payload.todolists.map((tl) => ({ ...tl, filter:  'all'}))
             })
             .addCase(changeTodolistTitleTC.fulfilled, (state, action) => {
                 const index = state.findIndex((todolist) => todolist.id === action.payload.id)
@@ -35,11 +35,7 @@ export const todolistsSlice = createSlice({
                 }
             })
             .addCase(createTodolistTC.fulfilled, (state, action) => {
-                const newTodolist: DomainTodolist = {
-                    ...action.payload,
-                    filter: "all"
-                }
-                state.push(newTodolist)
+                state.unshift({ ...action.payload.todolist, filter: "all" })
             })
 
     }
@@ -48,8 +44,8 @@ export const todolistsSlice = createSlice({
 export const fetchTodolistsTC = createAsyncThunk (`${todolistsSlice.name}/fetchTodolistsTC`,
     async (_arg, { rejectWithValue}) => {
         try {
-            const res = await todolistsApi.getTodolists()
-            return res.data
+            const todolists = await todolistsApi.getTodolists()
+            return {todolists}
         } catch (e) {
             return  rejectWithValue(e)
         }
@@ -61,27 +57,27 @@ export const changeTodolistTitleTC = createAsyncThunk (`${todolistsSlice.name}/c
             await todolistsApi.changeTodolist(arg)
             return arg
         } catch (e) {
-            return  rejectWithValue(e)
+            return  rejectWithValue(null)
         }
     })
 
 export const createTodolistTC = createAsyncThunk (`${todolistsSlice.name}/createTodolistTC`,
     async  (title: string, { rejectWithValue}) => {
         try {
-            const res =  await  todolistsApi.createTodolist(title)
-            return res.data.data.item
+            const todolist =  await  todolistsApi.createTodolist(title)
+            return {todolist}
         } catch (e) {
-            return  rejectWithValue(e)
+            return  rejectWithValue(null)
         }
     })
 
 export const deleteTodolistTC = createAsyncThunk (`${todolistsSlice.name}/deleteTodolistTC`,
-    async (arg: {id: string}, { rejectWithValue}) => {
+    async (id: string, { rejectWithValue}) => {
         try {
-            await todolistsApi.deleteTodolist(arg.id)
-            return arg
+            await todolistsApi.deleteTodolist(id)
+            return {id}
         } catch (e) {
-            return  rejectWithValue(e)
+            return  rejectWithValue(null)
         }
     })
 

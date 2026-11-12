@@ -6,7 +6,7 @@ import {
     ChangeTaskTitleAC,
     RemoveTaskAC,
     tasksSlice
-} from "../tasks.slice.ts";
+} from "../tasksSlice.ts";
 import {expect, test} from 'vitest';
 
 

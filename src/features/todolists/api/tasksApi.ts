@@ -1,21 +1,33 @@
 import {instance} from "../../../common/instance";
-import {DomainTask, GetTasksResponse, UpdateTaskModel} from "./tasksApi.types.ts";
-import {BaseResponse} from "../../../common/types";
+import {DomainTask, GetTasksResponse, TaskAttributes, UpdateTaskModel} from "./tasksApi.types.ts";
+import {ApiResource, BaseResponse} from "../../../common/types";
+
+const toDomainTask = ({ id, attributes }: ApiResource<TaskAttributes>, todolistId: string): DomainTask => ({
+    id,
+    ...attributes,
+    todolistId,
+})
 
 export const tasksApi = {
     getTasks(todolistId: string) {
-        return instance.get<GetTasksResponse>(`/todo-lists/${todolistId}/tasks`)
+        return instance.get<GetTasksResponse>(`/boards/${todolistId}/tasks`)
+            .then((res) => res.data.data.map((task) => toDomainTask(task, todolistId)))
     },
     createTask(payload: { todolistId: string, title: string}) {
         const { todolistId, title} = payload
-        return instance.post<BaseResponse<{ item: DomainTask }>>(`/todo-lists/${todolistId}/tasks`, {title})
+        return instance.post<BaseResponse<ApiResource<TaskAttributes>>>(`/boards/${todolistId}/tasks`, {
+            data: { type: "tasks", attributes: { title } },
+        })
+            .then((res) => toDomainTask(res.data.data, todolistId))
     },
-    changeStatus(payload: { todolistId: string, taskId: string, model: UpdateTaskModel }) {
+    updateTask(payload: { todolistId: string, taskId: string, model: UpdateTaskModel }) {
         const {todolistId, taskId, model} = payload
-        return instance.put<BaseResponse<{ item: DomainTask }>>(`/todo-lists/${todolistId}/tasks/${taskId}`, model)
+        return instance.patch<BaseResponse<ApiResource<TaskAttributes>>>(`/boards/${todolistId}/tasks/${taskId}`, {
+            data: { type: "tasks", attributes: model }})
+            .then((res) => toDomainTask(res.data.data, todolistId))
     },
     deleteTask(payload: { todolistId: string, taskId: string }) {
         const {todolistId, taskId} = payload
-        return instance.delete<BaseResponse>(`/todo-lists/${todolistId}/${taskId}`)
+        return instance.delete(`/boards/${todolistId}/tasks/${taskId}`)
     }
 }
