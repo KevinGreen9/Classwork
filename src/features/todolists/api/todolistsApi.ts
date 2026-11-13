@@ -18,12 +18,18 @@ export const todolistsApi = {
        })
            .then((res) => toTodolist(res.data.data))
     },
-    createTodolist(title: string) {
-       return instance.post<BaseResponse<ApiResource<TodolistAttributes>>>("/boards", {
-           data: {type: 'boards', attributes: { title }},
-       })
-           .then((res) => toTodolist(res.data.data))
+    async createTodolist(title: string) {
+        const res = await instance.post<BaseResponse<ApiResource<TodolistAttributes>>>("/boards", {
+            data: {type: 'boards', attributes: {title}},
+        });
+        return toTodolist(res.data.data);
     },
+    // createTodolist(title: string) {
+    //    return instance.post<BaseResponse<ApiResource<TodolistAttributes>>>("/boards", {
+    //        data: {type: 'boards', attributes: { title }},
+    //    })
+    //        .then((res) => toTodolist(res.data.data))
+    // },
     deleteTodolist(id: string) {
        return instance.delete(`/boards/${id}`)
     }
