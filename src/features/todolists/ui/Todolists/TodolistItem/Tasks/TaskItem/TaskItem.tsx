@@ -2,41 +2,49 @@ import DeleteIcon from "@mui/icons-material/Delete"
 import Checkbox from "@mui/material/Checkbox"
 import IconButton from "@mui/material/IconButton"
 import ListItem from "@mui/material/ListItem"
-import type { ChangeEvent } from "react"
-import { getListItemSx } from "./TaskItem.styles"
-import {changeTaskStatusAC, changeTaskTitleAC, deleteTaskAC, Task} from "../../../../../model/tasksSlice.ts";
+import type {ChangeEvent} from "react"
+import {getListItemSx} from "./TaskItem.styles"
+import {changeTaskStatusTC, changeTaskTitleTC, deleteTaskTC} from "../../../../../model/tasksSlice.ts";
 import {useAppDispatch} from "../../../../../../../common/hooks";
 import {EditableSpan} from "../../../../../../../common/components";
+import {DomainTask} from "../../../../../api/tasksApi.types.ts";
+import {TaskStatus} from "../../../../../../../common/enums";
 
 type Props = {
-    task: Task
+    task: DomainTask
     todolistId: string
 }
 
-export const TaskItem = ({ task, todolistId }: Props) => {
+export const TaskItem = ({task, todolistId}: Props) => {
     const dispatch = useAppDispatch()
 
     const deleteTask = () => {
-        dispatch(deleteTaskAC({ todolistId, taskId: task.id }))
+        dispatch(deleteTaskTC({todolistId, taskId: task.id}))
     }
 
     const changeTaskStatus = (e: ChangeEvent<HTMLInputElement>) => {
         const newStatusValue = e.currentTarget.checked
-        dispatch(changeTaskStatusAC({ todolistId, taskId: task.id, isDone: newStatusValue }))
+        dispatch(changeTaskStatusTC({
+            todolistId,
+            taskId: task.id
+            , status: newStatusValue ? TaskStatus.Completed : TaskStatus.New
+        }))
     }
 
     const changeTaskTitle = (title: string) => {
-        dispatch(changeTaskTitleAC({ todolistId, taskId: task.id, title }))
+        dispatch(changeTaskTitleTC({todolistId, taskId: task.id, title}))
     }
 
+    const isTaskCompleted = task.status === TaskStatus.Completed
+
     return (
-        <ListItem sx={getListItemSx(task.isDone)}>
+        <ListItem sx={getListItemSx(isTaskCompleted)}>
             <div>
-                <Checkbox checked={task.isDone} onChange={changeTaskStatus} />
-                <EditableSpan value={task.title} onChange={changeTaskTitle} />
+                <Checkbox checked={isTaskCompleted} onChange={changeTaskStatus}/>
+                <EditableSpan value={task.title} onChange={changeTaskTitle}/>
             </div>
             <IconButton onClick={deleteTask}>
-                <DeleteIcon />
+                <DeleteIcon/>
             </IconButton>
         </ListItem>
     )

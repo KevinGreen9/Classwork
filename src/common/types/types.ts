@@ -9,3 +9,5 @@ export type ApiResource<A> = {
     type: string
     attributes: A
 }
+
+export type RequestStatus = "idle" | "loading" | "succeeded" | "failed"

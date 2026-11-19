@@ -7,16 +7,16 @@ const toTodolist = ({ id, attributes }: ApiResource<TodolistAttributes>): Todoli
     ...attributes,
 })
 export const todolistsApi = {
-   getTodolists() {
-       return instance.get<BaseResponse<ApiResource<TodolistAttributes>[]>>(`/boards/my`)
-           .then((res) => res.data.data.map(toTodolist))
+   async getTodolists() {
+     const res =  await instance.get<BaseResponse<ApiResource<TodolistAttributes>[]>>(`/boards/my`)
+         return  res.data.data.map(toTodolist)
    },
-    changeTodolist(payload: {id: string, title: string}) {
+    async changeTodolist(payload: {id: string, title: string}) {
        const {id, title} = payload
-       return instance.patch<BaseResponse<ApiResource<TodolistAttributes>>>(`/boards/${id}`, {
+       const res =  await instance.patch<BaseResponse<ApiResource<TodolistAttributes>>>(`/boards/${id}`, {
            data: {type: "boards", attributes: { title }},
        })
-           .then((res) => toTodolist(res.data.data))
+        return toTodolist(res.data.data)
     },
     async createTodolist(title: string) {
         const res = await instance.post<BaseResponse<ApiResource<TodolistAttributes>>>("/boards", {
@@ -24,14 +24,8 @@ export const todolistsApi = {
         });
         return toTodolist(res.data.data);
     },
-    // createTodolist(title: string) {
-    //    return instance.post<BaseResponse<ApiResource<TodolistAttributes>>>("/boards", {
-    //        data: {type: 'boards', attributes: { title }},
-    //    })
-    //        .then((res) => toTodolist(res.data.data))
-    // },
-    deleteTodolist(id: string) {
-       return instance.delete(`/boards/${id}`)
+   async deleteTodolist(id: string) {
+       await instance.delete(`/boards/${id}`)
     }
 
 }
