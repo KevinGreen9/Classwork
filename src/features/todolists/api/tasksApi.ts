@@ -9,25 +9,26 @@ const toDomainTask = ({ id, attributes }: ApiResource<TaskAttributes>, todolistI
 })
 
 export const tasksApi = {
-    getTasks(todolistId: string) {
-        return instance.get<GetTasksResponse>(`/boards/${todolistId}/tasks`)
-            .then((res) => res.data.data.map((task) => toDomainTask(task, todolistId)))
+    async getTasks(todolistId: string) {
+        const res = await instance.get<GetTasksResponse>(`/boards/${todolistId}/tasks`);
+        return res.data.data.map((task) => toDomainTask(task, todolistId));
     },
-    createTask(payload: { todolistId: string, title: string}) {
-        const { todolistId, title} = payload
-        return instance.post<BaseResponse<ApiResource<TaskAttributes>>>(`/boards/${todolistId}/tasks`, {
-            data: { type: "tasks", attributes: { title } },
-        })
-            .then((res) => toDomainTask(res.data.data, todolistId))
+    async createTask(payload: { todolistId: string, title: string }) {
+        const {todolistId, title} = payload
+        const res = await instance.post<BaseResponse<ApiResource<TaskAttributes>>>(`/boards/${todolistId}/tasks`, {
+            data: {type: "tasks", attributes: {title}},
+        });
+        return toDomainTask(res.data.data, todolistId);
     },
-    updateTask(payload: { todolistId: string, taskId: string, model: UpdateTaskModel }) {
+   async updateTask(payload: { todolistId: string, taskId: string, model: UpdateTaskModel }) {
         const {todolistId, taskId, model} = payload
-        return instance.patch<BaseResponse<ApiResource<TaskAttributes>>>(`/boards/${todolistId}/tasks/${taskId}`, {
-            data: { type: "tasks", attributes: model }})
-            .then((res) => toDomainTask(res.data.data, todolistId))
+        const res = await instance.patch<BaseResponse<ApiResource<TaskAttributes>>>(`/boards/${todolistId}/tasks/${taskId}`, {
+            data: {type: "tasks", attributes: model},
+        });
+           return toDomainTask(res.data.data, todolistId)
     },
-    deleteTask(payload: { todolistId: string, taskId: string }) {
+    async deleteTask(payload: { todolistId: string, taskId: string }) {
         const {todolistId, taskId} = payload
-        return instance.delete(`/boards/${todolistId}/tasks/${taskId}`)
+        await instance.delete(`/boards/${todolistId}/tasks/${taskId}`)
     }
 }

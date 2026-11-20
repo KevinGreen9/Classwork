@@ -1,7 +1,6 @@
-import {createTodolistTC, deleteTodolistTC} from "./todolistsSlice.ts";
 import {createAppSlice} from "../../../common/utils";
 import {tasksApi} from "../api/tasksApi.ts";
-import {DomainTask, UpdateTaskModel} from "../api/tasksApi.types.ts";
+import {DomainTask} from "../api/tasksApi.types.ts";
 import {TaskStatus} from "../../../common/enums";
 import {changeStatusAC} from "../../../App/appSlice.ts";
 
@@ -11,15 +10,6 @@ export const tasksSlice = createAppSlice({
     initialState: {} as TasksState,
     selectors: {
         selectTasks: (state) => state
-    },
-    extraReducers: (builder) => {
-        builder
-            .addCase(createTodolistTC.fulfilled, (state, action) => {
-                state[action.payload.todolist.id] = []
-            })
-            .addCase(deleteTodolistTC.fulfilled, (state, action) => {
-                delete state[action.payload.id]
-            })
     },
     reducers: (create) => ({
         fetchTasksTC: create.asyncThunk(
@@ -105,11 +95,11 @@ export const tasksSlice = createAppSlice({
             }
         ),
         changeTaskTitleTC: create.asyncThunk(
-            async (payload: {todolistId: string; taskId: string; title: UpdateTaskModel}, {dispatch, rejectWithValue}) => {
+            async (payload: {todolistId: string; taskId: string;  title: string}, {dispatch, rejectWithValue}) => {
                 const { todolistId, taskId, title }= payload
                 try {
                     dispatch(changeStatusAC({status: 'loading'}))
-                    const task = await tasksApi.updateTask({todolistId, taskId, model:{title} })
+                    const task = await tasksApi.updateTask({todolistId, taskId, model: {title}})
                     dispatch(changeStatusAC({status: 'succeeded'}))
                     return {task}
                 } catch (e) {
@@ -126,17 +116,15 @@ export const tasksSlice = createAppSlice({
                 }
             }
         ),
-        changeTaskTitleAC: create.reducer<{ todolistId: string; taskId: string; title: string }>((state, action) => {
-            const task = state[action.payload.todolistId].find((task) => task.id === action.payload.taskId)
-            if (task) {
-                task.title = action.payload.title
-            }
-        })
     }),
 
 })
 
-export const { fetchTasksTC, deleteTaskTC, createTaskTC, changeTaskStatusTC, changeTaskTitleTC} = tasksSlice.actions
+export const { fetchTasksTC,
+    deleteTaskTC,
+    createTaskTC,
+    changeTaskStatusTC,
+    changeTaskTitleTC} = tasksSlice.actions
 export const {selectTasks} = tasksSlice.selectors
 export const tasksReducer = tasksSlice.reducer
 

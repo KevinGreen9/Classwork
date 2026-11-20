@@ -26,8 +26,8 @@ export const TaskItem = ({task, todolistId}: Props) => {
         const newStatusValue = e.currentTarget.checked
         dispatch(changeTaskStatusTC({
             todolistId,
-            taskId: task.id
-            , status: newStatusValue ? TaskStatus.Completed : TaskStatus.New
+            taskId: task.id,
+            status: newStatusValue ? TaskStatus.Completed : TaskStatus.New
         }))
     }
 
