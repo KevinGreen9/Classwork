@@ -4,9 +4,10 @@ import {ChangeEvent, KeyboardEvent, useState} from "react";
 
 export type CreateSampleType = {
     addItem: (title: string) => void
+    disabled?: boolean
 }
 
-export const  AddItemForm = ({addItem}: CreateSampleType) => {
+export const  AddItemForm = ({addItem, disabled}: CreateSampleType) => {
     const [title, setTitle] = useState<string>('')
     let [error, setError] = useState<string | null>(null)
 
@@ -42,8 +43,9 @@ export const  AddItemForm = ({addItem}: CreateSampleType) => {
                    onKeyDown={onKeyEnter}
                    error={!!error}
                    helperText={error}
+                   disabled={disabled}
         />
-        <IconButton onClick={addTask}>
+        <IconButton onClick={addTask}  disabled={disabled}>
             <ControlPoint color={'primary'}/>
         </IconButton>
     </div>

@@ -37,7 +37,7 @@ export const Tasks = ({ todolist }: Props) => {
             ) : (
                 <List>
                     {filteredTasks?.map((task: DomainTask) => (
-                        <TaskItem key={task.id} task={task} todolistId={id} />
+                        <TaskItem key={task.id} task={task} todolistId={id} todolist={todolist}/>
                     ))}
                 </List>
             )}

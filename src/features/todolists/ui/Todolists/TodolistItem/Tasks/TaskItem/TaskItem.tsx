@@ -9,13 +9,15 @@ import {useAppDispatch} from "../../../../../../../common/hooks";
 import {EditableSpan} from "../../../../../../../common/components";
 import {DomainTask} from "../../../../../api/tasksApi.types.ts";
 import {TaskStatus} from "../../../../../../../common/enums";
+import {DomainTodolist} from "../../../../../model/todolistsSlice.ts";
 
 type Props = {
     task: DomainTask
     todolistId: string
+    todolist: DomainTodolist
 }
 
-export const TaskItem = ({task, todolistId}: Props) => {
+export const TaskItem = ({task, todolistId, todolist}: Props) => {
     const dispatch = useAppDispatch()
 
     const deleteTask = () => {
@@ -40,10 +42,10 @@ export const TaskItem = ({task, todolistId}: Props) => {
     return (
         <ListItem sx={getListItemSx(isTaskCompleted)}>
             <div>
-                <Checkbox checked={isTaskCompleted} onChange={changeTaskStatus}/>
-                <EditableSpan value={task.title} onChange={changeTaskTitle}/>
+                <Checkbox checked={isTaskCompleted} onChange={changeTaskStatus} disabled={todolist.entityStatus === 'loading'}/>
+                <EditableSpan value={task.title} onChange={changeTaskTitle} disabled={todolist.entityStatus === 'loading'} />
             </div>
-            <IconButton onClick={deleteTask}>
+            <IconButton onClick={deleteTask} disabled={todolist.entityStatus === 'loading'}>
                 <DeleteIcon/>
             </IconButton>
         </ListItem>

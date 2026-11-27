@@ -4,7 +4,7 @@ import { ThemeProvider } from "@mui/material/styles"
 import {selectThemeMode} from "./appSlice.ts";
 import {useAppSelector} from "../common/hooks";
 import {getTheme} from "../common/theme";
-import {Header} from "../common/components";
+import {ErrorSnackbar, Header} from "../common/components";
 import {Main} from "./Main.tsx";
 
 
@@ -18,6 +18,7 @@ export const App = () => {
                 <CssBaseline />
                 <Header />
                 <Main />
+                <ErrorSnackbar/>
             </div>
         </ThemeProvider>
     )

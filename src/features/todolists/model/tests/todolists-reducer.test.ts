@@ -12,8 +12,8 @@ import {expect, test} from 'vitest';
 
 test('correct todolist should be removed', () => {
     const startState: DomainTodolist[] = [
-        {id: 'todolistId1', title: "What to learn", addedAt: "", order: 0, filter: "all"},
-        {id: 'todolistId2', title: "What to buy", addedAt: "", order: 0, filter: "all"},
+        {id: 'todolistId1', title: "What to learn", addedAt: "", order: 0, filter: "all", entityStatus: "idle"},
+        {id: 'todolistId2', title: "What to buy", addedAt: "", order: 0, filter: "all", entityStatus: "idle"},
     ]
     const endState = todolistsReducer(
         startState,
@@ -25,8 +25,8 @@ test('correct todolist should be removed', () => {
 
 test('correct todolist should be created', () => {
     const startState: DomainTodolist[] = [
-        {id: 'todolistId1', title: "What to learn", filter: 'all', order: 0, addedAt: ''},
-        {id: 'todolistId2', title: "What to want?", filter: 'all', order: 1, addedAt: ''}
+        {id: 'todolistId1', title: "What to learn", filter: 'all', order: 0, addedAt: '', entityStatus: "idle"},
+        {id: 'todolistId2', title: "What to want?", filter: 'all', order: 1, addedAt: '', entityStatus: "idle"}
     ]
     const newTodoTitle = 'New Todolist!!';
     const createdTodolist = {
@@ -48,8 +48,8 @@ test('correct todolist should be created', () => {
 
 test("correct todolist should be changes it's name", () => {
     const startState: DomainTodolist[] = [
-        {id: 'todolistId1', title: "What to learn", filter: 'all', order: 0, addedAt: ''},
-        {id: 'todolistId2', title: "What to want?", filter: 'all', order: 1, addedAt: ''}
+        {id: 'todolistId1', title: "What to learn", filter: 'all', order: 0, addedAt: '', entityStatus: "idle"},
+        {id: 'todolistId2', title: "What to want?", filter: 'all', order: 1, addedAt: '', entityStatus: "idle"},
     ]
 
     let newName = 'Old Todolist!!';
@@ -73,8 +73,8 @@ test("correct todolist should be changes it's name", () => {
 test("correct todolist should be changes it's filter", () => {
 
     const startState: DomainTodolist[] = [
-        {id: 'todolistId1', title: "What to learn", filter: 'all', order: 0, addedAt: ''},
-        {id: 'todolistId2', title: "What to want?", filter: 'all', order: 1, addedAt: ''}
+        {id: 'todolistId1', title: "What to learn", filter: 'all', order: 0, addedAt: '', entityStatus: "idle"},
+        {id: 'todolistId2', title: "What to want?", filter: 'all', order: 1, addedAt: '', entityStatus: "idle"}
     ]
 
     let newFilter: FilterValues = 'active';

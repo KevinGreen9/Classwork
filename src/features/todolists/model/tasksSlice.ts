@@ -1,7 +1,8 @@
 import {createAppSlice} from "../../../common/utils";
 import {tasksApi} from "../api/tasksApi.ts";
 import {DomainTask, UpdateTaskModel} from "../api/tasksApi.types.ts";
-import {changeStatusAC} from "../../../App/appSlice.ts";
+import {setAppStatusAC} from "../../../App/appSlice.ts";
+import {handleServerError} from "../../../common/utils/handleServerError.ts";
 
 
 export const tasksSlice = createAppSlice({
@@ -14,12 +15,12 @@ export const tasksSlice = createAppSlice({
         fetchTasksTC: create.asyncThunk(
             async (todolistId: string, {dispatch, rejectWithValue}) => {
                 try {
-                    dispatch(changeStatusAC({status: 'loading'}))
+                    dispatch(setAppStatusAC({status: 'loading'}))
                     const tasks = await tasksApi.getTasks(todolistId)
-                    dispatch(changeStatusAC({status: 'succeeded'}))
+                    dispatch(setAppStatusAC({status: 'succeeded'}))
                     return {todolistId, tasks}
-                } catch (e) {
-                    dispatch(changeStatusAC({status: 'failed'}))
+                } catch (error) {
+                    handleServerError(error, dispatch)
                     return rejectWithValue(null)
                 }
             },
@@ -33,12 +34,12 @@ export const tasksSlice = createAppSlice({
         createTaskTC: create.asyncThunk(
             async (payload: {todolistId: string, title: string}, {dispatch, rejectWithValue}) => {
                 try {
-                    dispatch(changeStatusAC({status: 'loading'}))
+                    dispatch(setAppStatusAC({status: 'loading'}))
                     const task = await tasksApi.createTask(payload)
-                    dispatch(changeStatusAC({status: 'succeeded'}))
+                    dispatch(setAppStatusAC({status: 'succeeded'}))
                     return {task}
-                } catch (e) {
-                    dispatch(changeStatusAC({status: 'failed'}))
+                } catch (error) {
+                    handleServerError(error, dispatch)
                     return rejectWithValue(null)
                 }
             },
@@ -51,12 +52,12 @@ export const tasksSlice = createAppSlice({
         deleteTaskTC: create.asyncThunk(
             async (payload: {todolistId: string; taskId: string}, {dispatch, rejectWithValue}) => {
                 try {
-                    dispatch(changeStatusAC({status: 'loading'}))
+                    dispatch(setAppStatusAC({status: 'loading'}))
                      await tasksApi.deleteTask(payload)
-                    dispatch(changeStatusAC({status: 'succeeded'}))
+                    dispatch(setAppStatusAC({status: 'succeeded'}))
                     return payload
-                } catch (e) {
-                    dispatch(changeStatusAC({status: 'failed'}))
+                } catch (error) {
+                    handleServerError(error, dispatch)
                     return rejectWithValue(null)
                 }
             },
@@ -75,12 +76,12 @@ export const tasksSlice = createAppSlice({
             async (payload: {todolistId: string; taskId: string; domainModel: Partial<UpdateTaskModel>  }, {dispatch, rejectWithValue}) => {
                 const { todolistId, taskId, domainModel }= payload
                 try {
-                    dispatch(changeStatusAC({status: 'loading'}))
+                    dispatch(setAppStatusAC({status: 'loading'}))
                     const task = await tasksApi.updateTask({todolistId, taskId, model: domainModel})
-                    dispatch(changeStatusAC({status: 'succeeded'}))
+                    dispatch(setAppStatusAC({status: 'succeeded'}))
                     return {task}
-                } catch (e) {
-                    dispatch(changeStatusAC({status: 'failed'}))
+                } catch (error) {
+                    handleServerError(error, dispatch)
                     return rejectWithValue(null)
                 }
             },
@@ -107,3 +108,17 @@ export const {selectTasks} = tasksSlice.selectors
 export const tasksReducer = tasksSlice.reducer
 
 export type TasksState = Record<string, DomainTask[]>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

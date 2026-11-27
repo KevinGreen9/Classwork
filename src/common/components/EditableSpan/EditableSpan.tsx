@@ -5,9 +5,10 @@ import {TextField} from "@mui/material";
 type EditTableSpanType = {
     value: string
     onChange: (NewValue: string) => void
+    disabled?: boolean
 }
 
-export const EditableSpan = ({ value, onChange }: EditTableSpanType) =>  {
+export const EditableSpan = ({ value, onChange, disabled }: EditTableSpanType) =>  {
     let [EditMode, setEditMode] = useState<boolean>(false);
     let [title, setTitle] = useState('');
 
@@ -26,6 +27,6 @@ export const EditableSpan = ({ value, onChange }: EditTableSpanType) =>  {
 
 
     return  EditMode
-        ? <TextField variant={'standard'} value={title} onBlur={deActivateSpan} onChange={changeHandler} autoFocus/>
-        : <span onDoubleClick={activateSpan}>{value}</span>
+        ? <TextField variant={'standard'} value={title} onBlur={deActivateSpan} onChange={changeHandler} disabled={disabled} autoFocus/>
+        : <span onDoubleClick={activateSpan} >{value}</span>
 }
